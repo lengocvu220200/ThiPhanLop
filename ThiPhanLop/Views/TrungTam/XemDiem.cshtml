@@ -1,0 +1,111 @@
+﻿@model ThiPhanLop.Models.NguoiDuThi
+
+@{
+    ViewBag.Title = "XemDiem";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="col-lg-4">
+    <div class="input-group input-group-rounded">
+        <input type="text" placeholder="Nhập số báo danh" id="txtsearch" class="form-control" onsubmit="return antifan()"/>
+        <span class="input-group-btn">
+            <button class="btn btn-primary btn-group-right" id="btnsearch" type="button" onclick="return antifan()" style="height: 42px">
+                <i class="ti-search"></i>
+            </button>
+        </span>
+    </div>
+</div>
+<section id="main-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card" style="height:550px">
+                <div class="card-title">
+                    <h4>Kết quả hiển thị ở đây</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Số báo danh
+                                    </th>
+                                    <th>
+                                        Họ tên
+                                    </th>
+                                    <th>
+                                        Năm sinh
+                                    </th>
+                                    <th>
+                                        CMND/CCCD
+                                    </th>
+                                    <th>
+                                        Số điện thoại
+                                    </th>
+                                    <th>
+                                        Khóa thi
+                                    </th>
+                                    <th>
+                                        Trình độ
+                                    </th>
+                                    <th>
+                                        Điểm nghe
+                                    </th>
+                                    <th>
+                                        điểm nói
+                                    </th>
+                                    <th>
+                                        Điểm đọc
+                                    </th>
+                                    <th>
+                                        Điểm viết
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="ketqua" style="font: bold">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function antifan() {
+        var sbd = document.getElementById("txtsearch").value;
+        $.ajax({
+            type: 'GET',
+            data: { sobaodanh: sbd },
+            url: '/TrungTam/GetDiemNghe',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (res) {
+                if (res.length > 0) {
+                    var html = "";
+                    for (let i = 0; i < res.length; i++) {
+                        html += "<tr>";
+                        html += '<td style="color: blue">' + res[i].sobaodanh + "</td>";
+                        html += '<td><b style="color: orangered">' + res[i].nguoiduthi_hoten + "</b></td>";
+                        html += "<td>" + res[i].nguoiduthi_namsinh + "</td>";
+                        html += "<td>" + res[i].nguoiduthi_cmnd + "</td>";
+                        html += "<td>" + res[i].nguoiduthi_sdt + "</td>";
+                        html += '<td style="color: green">' + res[i].khoathi_ten + "</td>";
+                        html += '<td style="color: green">' + res[i].nguoiduthi_trinhdo_ten + "</td>";
+                        html += '<td style="color: red"><b>' + res[i].diemnghe + "</b></td>";
+                        html += '<td style="color: red"><b>' + res[i].diemnoi + "</b></td>";
+                        html += '<td style="color: red"><b>' + res[i].diemdoc + "</b></td>";
+                        html += '<td style="color: red"><b>' + res[i].diemviet + "</b></td>";
+                        html += "</tr>";
+                    }
+                    $('#ketqua').html(html);
+                } else {
+                    $('#ketqua').html('');
+                }
+            },
+            error: function (x) {
+                alert('Lỗi truy cập!');
+            }
+        });
+    }
+</script>

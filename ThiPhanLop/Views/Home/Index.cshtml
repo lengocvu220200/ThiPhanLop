@@ -1,0 +1,81 @@
+﻿@{
+    Layout ="~/Views/Shared/_CustomLayout.cshtml";
+    ViewBag.Title = "Home Page";
+}
+<section class="bg-light" style="padding-top: 0;">
+    <div class="container px-4" style="padding-bottom: 1rem !important;">
+        <span style="font-style: italic;margin-bottom: 1%;"><i style="color:blue">Dữ liệu ngày: @DateTime.Today.ToString("dd/MM/yyy")</i></span>
+        <div class="row">
+            <div class="col-md-20 mx-auto">
+
+                <form action="@Url.Action("Index","tracuu")" method="post" name="form1" onsubmit="return Message()" class="form-horizontal" id="formTraCuu" novalidate="novalidate">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="inputHoTen">Họ tên:</label>
+                            <input type="text" class="form-control" name="Title" id="Title" placeholder="Nguyễn Văn A" value="@ViewBag.HoTen" required />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="inputNamSinh">Năm sinh:</label>
+                            <input type="text" class="form-control" name="NamSinh" id="NamSinh" placeholder="1996" value="@ViewBag.NamSinh" required />
+                        </div>
+                    </div>
+
+                    @* Form recaptcha *@
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="inputHoTen">Mã QR code:</label>
+                            <input type="text" class="form-control" name="QRCode" id="QRCode" placeholder="Mã QR code" value="@ViewBag.QR" required />
+                        </div>
+                        <div class="col-sm-6">
+                            <!---<div style="float: right;width: 100%;"></div>--->
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row" style="text-align: center;">
+                        <div class="col-sm">
+                            <button type="submit" class="btn btn-success" role="button" style="margin-right: 2.5%;" data-toggle="modal" data-target="#exampleModal">
+                                <i class="bi bi-search"></i> Tra cứu
+                            </button>
+                            <button type="button" class="btn btn-warning" role="button" onclick="ResetForm('formTraCuu')">
+                                <i class="bi bi-arrow-repeat"></i> Nhập lại
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container px-4" style="overflow-x: auto;
+        background: #fff;
+        padding-top: 1rem !important;
+        box-shadow: 0 5px 20px rgb(0 0 0 / 5%);" id="hide">
+
+        <div class="textKetQuaTraCuu">
+            <span>Kết quả tra cứu:</span>
+        </div>
+
+        <div class="textKetQuaTraCuuMobile">
+            <span>Kết quả tra cứu</span>
+        </div>
+
+
+        <table id="mytable" class="table table-bordred table-striped">
+            <thead>
+                <tr style="vertical-align: top;">
+                    <th>Id</th>
+                    <th>Họ và tên</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.List)
+                {
+                    <tr>
+                        <td data-label="Id: ">@item.nguoiduthi_id</td>
+                        <td data-label="họ tên: ">@item.nguoiduthi_hoten</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

@@ -1,0 +1,131 @@
+﻿@model ThiPhanLop.Models.NguoiDuThi
+
+@{
+    ViewBag.Title = "Đăng ký thi";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="content-wrap">
+    <div class="main">
+        <div class="container-fluid">
+            <!-- /# row -->
+            <section id="main-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-title">
+                                <h4>Đăng ký dự thi trực tuyến</h4>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="basic-elements">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Họ Tên:</label>
+                                                    <input id="example-email" class="form-control" type="text" placeholder="Nhập họ tên ..." name="nguoiduthi_hoten" required>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Năm sinh:</label>
+                                                    <input class="form-control" type="date" name="nguoiduthi_namsinh" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Giới tính:</label>
+                                                    <select name="nguoiduthi_gioitinh" id="nguoiduthi_gioitinh" class="form-control">
+                                                        <option value="Nam">Nam</option>
+                                                        <option value="Nữ">Nữ</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>CMND/CCCD:</label>
+                                                    <input class="form-control" type="text" name="nguoiduthi_cmnd" placeholder="Nhập số CMND ..." required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Số điện thoại:</label>
+                                                    <input id="example-email" class="form-control" min="0" max="10" type="number" required placeholder="Nhập số điện thoại ..." name="nguoiduthi_sdt">
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Địa chỉ:</label>
+                                                    <input class="form-control" type="text" name="nguoiduthi_diachi" placeholder="Nhập địa chỉ ..." required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Khóa thi:</label>
+                                                    <select name="khoathi_id" class="form-control">
+                                                        @foreach (var item in ViewBag.TenKhoaThi)
+                                                        {
+                                                            <option value="@item.khoathi_id">@item.khoathi_ten</option>
+                                                        }
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Trình độ thi:</label>
+                                                    <select name="nguoiduthi_trinhdo_id" class="form-control">
+                                                        @foreach (var item in ViewBag.TrinhDo)
+                                                        {
+                                                            <option value="@item.nguoiduthi_trinhdo_id">@item.nguoiduthi_trinhdo_ten</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group" style="float: right">
+                                                    <button type="button" class="btn btn-danger btn-flat btn-addon m-b-10 m-l-5">
+                                                        <i class="ti-close"></i>
+                                                        Nhập lại
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-success btn-flat btn-addon btn-md m-b-10 m-l-5">
+                                                        <i class="ti-search"></i>
+                                                        Thêm mới
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+@if (TempData["ThemThanhCong"] != null)
+{
+    <script>alert("Đăng ký thi thành công");</script>
+}
+

@@ -1,0 +1,144 @@
+﻿@model ThiPhanLop.Models.ThongKe
+
+@{
+    ViewBag.Title = "ThongKeSinhVien";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div class="content-wrap">
+    <div class="main">
+        <div class="container-fluid">
+            <section id="main-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label>Tên khóa thi:</label>
+                                        <select name="khoathi_id" id="khoathi_id" class="form-control" onchange="return antifan()">
+                                            <option value="0">-- Chọn khóa thi --</option>
+                                            @foreach (var item in ViewBag.TenKhoaThi)
+                                            {
+                                                <option value="@item.khoathi_id">@item.khoathi_ten</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label>Tên phòng thi:</label>
+                                        <select name="trinhdo_id" id="trinhdo_id" class="form-control" onchange="return antifan()">
+                                            <option value="0">-- Chọn trình độ --</option>
+                                            @foreach (var item in ViewBag.TenTrinhDo)
+                                            {
+                                                <option value="@item.nguoiduthi_trinhdo_id">@item.nguoiduthi_trinhdo_ten</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="card p-0">
+                                        <div class="stat-widget-three" onclick="return GetDSKhoaThi();">
+                                            <div class="stat-icon bg-success">
+                                                <i class="ti-user"></i>
+                                            </div>
+                                            <div class="stat-content">
+                                                <div class="stat-digit" id="SLSinhVien">0</div>
+                                                <div class="stat-text">Sinh viên</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /# row -->
+            <section id="main-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-title">
+                                <h4>Danh sách thí sinh dự thi</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead style="color: red">
+                                            <tr>
+                                                <th>
+                                                    Số báo danh
+                                                </th>
+                                                <th>
+                                                    Họ tên
+                                                </th>
+
+                                                <th>
+                                                    Năm sinh
+                                                </th>
+                                                <th>
+                                                    CMND/CCCD
+                                                </th>
+                                                <th>
+                                                    Số điện thoại
+                                                </th>
+                                                <th>
+                                                    Mã phòng thi
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ketqua" style="font: bold">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+<script>
+    function antifan() {
+        var k = document.getElementById("khoathi_id");
+        var idK = k.options[k.selectedIndex].value;
+        var t = document.getElementById("trinhdo_id");
+        var idT = t.options[t.selectedIndex].value;
+        if (idK > 0 && idT > 0) {
+            $.ajax({
+                type: 'GET',
+                data: { idKhoaThi: idK, idTrinhDo: idT },
+                url: '/TrungTam/GetDSSVThongKe',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (res) {
+                    if (res.length > 0) {
+                        var html = "";
+                        for (let i = 0; i < res.length; i++) {
+                            html += "<tr>";
+                            html += "<td>" + res[i].sobaodanh + "</td>";
+                            html += "<td>" + res[i].nguoiduthi_hoten + "</td>";
+                            html += "<td>" + res[i].nguoiduthi_namsinh + "</td>";
+                            html += "<td>" + res[i].nguoiduthi_cmnd + "</td>";
+                            html += "<td>" + res[i].nguoiduthi_sdt + "</td>";
+                            html += "<td>" + res[i].phongthi_ten + "</td>";
+                            html += "</tr>";
+                        }
+                        $('#ketqua').html(html);
+                        $('#SLSinhVien').html(res.length);
+                    } else {
+                        $('#SLSinhVien').html(0);
+                        $('#ketqua').html('');
+                    }
+                },
+                error: function (x) {
+                    alert('Lỗi truy cập!');
+                }
+            });
+        }
+    }
+</script>

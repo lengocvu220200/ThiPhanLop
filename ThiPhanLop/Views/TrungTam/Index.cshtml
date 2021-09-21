@@ -1,0 +1,88 @@
+﻿@model IEnumerable<ThiPhanLop.Models.NguoiDuThi>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nguoiduthi_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nguoiduthi_hoten)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nguoiduthi_namsinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nguoiduthi_gioitinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nguoiduthi_cmnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nguoiduthi_sdt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nguoiduthi_diachi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.khoathi_ten)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nguoiduthi_trinhdo_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nguoiduthi_trangthai)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in ViewBag.List) {
+    <tr>
+        <td>
+            @item.nguoiduthi_id
+        </td>
+        <td>
+            @item.nguoiduthi_hoten
+        </td>
+        <td>
+            @item.nguoiduthi_namsinh
+        </td>
+        <td>
+            @item.nguoiduthi_gioitinh
+        </td>
+        <td>
+            @item.nguoiduthi_cmnd
+        </td>
+        <td>
+            @item.nguoiduthi_sdt
+        </td>
+        <td>
+            @item.nguoiduthi_diachi
+        </td>
+        <td>
+            @item.khoathi_ten
+        </td>
+        <td>
+            @item.nguoiduthi_trinhdo_id
+        </td>
+        <td>
+            @item.nguoiduthi_trangthai
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

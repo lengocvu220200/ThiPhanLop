@@ -1,0 +1,194 @@
+﻿@model ThiPhanLop.Models.ThongKe
+
+@{
+    ViewBag.Title = "ThongKeSLKhoaThiPhongThi";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div class="content-wrap">
+    <div class="main">
+        <div class="container-fluid">
+            <div id="main-content">
+                <!-- /# row -->
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>Tên khóa thi:</label>
+                        <select name="nguoiduthi_trinhdo_id" id="nguoiduthi_trinhdo_id" class="form-control" onchange="return GetData()">
+                            <option value="0">-- Chọn trình độ --</option>
+                            @foreach (var item in ViewBag.TrinhDo)
+                            {
+                                <option value="@item.nguoiduthi_trinhdo_id">@item.nguoiduthi_trinhdo_ten</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card p-0">
+                            <div class="stat-widget-three" onclick="return GetDSKhoaThi();">
+                                <div class="stat-icon bg-success">
+                                    <i class="ti-user"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-digit" id="SLKhoaThi">0</div>
+                                    <div class="stat-text">Khóa thi</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card p-0">
+                            <div class="stat-widget-three" onclick="return GetDSPhongThi()">
+                                <div class="stat-icon bg-warning">
+                                    <i class="ti-user"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-digit" id="SLPhongThi">0</div>
+                                    <div class="stat-text">Phòng thi</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrap">
+    <div class="main">
+        <div class="container-fluid">
+            <!-- /# row -->
+            <section id="main-content">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-title">
+                                <h4>Danh sách khóa thi </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Tên khóa thi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tenkhoathi">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-title">
+                                <h4>Danh sách phòng thi</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Tên phòng thi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tenphongthi">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script>
+    function GetData() {
+        var e = document.getElementById("nguoiduthi_trinhdo_id");
+        var id = e.options[e.selectedIndex].value;//.text để lấy text
+        //alert(id);
+        $.ajax({
+            type: 'GET',
+            data: { idTrinhDo: id },
+            url: '/TrungTam/GetThongKeSLKhoaThiPhongThi',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (ketqua) {
+                if (ketqua.length > 0) {
+                    for (let i = 0; i < ketqua.length; i++) {
+                        $('#SLKhoaThi').html(ketqua[i].soluong_khoathi);
+                        $('#SLPhongThi').html(ketqua[i].soluong_phongthi);
+                    }
+                } else {
+                    alert('Không tìm thấy!');
+                }
+            },
+            error: function (x) {
+                alert('Lỗi truy cập!');
+            }
+        });
+    };
+    function GetDSKhoaThi() {
+        var e = document.getElementById("nguoiduthi_trinhdo_id");
+        var id = e.options[e.selectedIndex].value;//.text để lấy text
+        $.ajax({
+            type: 'GET',
+            data: { idTrinhDo: id },
+            url: '/TrungTam/GetDSKhoaThiTheoTrinhDo',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (res) {
+                if (res.length > 0) {
+                    var html = "";
+                    let stt = 0;
+                    for (let i = 0; i < res.length; i++) {
+                        html += "<tr>";
+                        html += '<th scope="row">' + (stt+1) +'</th>';
+                        html += '<td class="color-primary">' + res[i].khoathi_ten + '</td>';
+                        html += "</tr>";
+                    }
+                    $('#tenkhoathi').html(html);
+                } else {
+                    $('#tenkhoathi').html('');
+                }
+            },
+            error: function (x) {
+                alert('Lỗi truy cập!');
+            }
+        });
+    };
+    function GetDSPhongThi() {
+        var e = document.getElementById("nguoiduthi_trinhdo_id");
+        var id = e.options[e.selectedIndex].value;//.text để lấy text
+        $.ajax({
+            type: 'GET',
+            data: { idTrinhDo: id },
+            url: '/TrungTam/GetDSPhongThiTheoTrinhDo',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (res) {
+                if (res.length > 0) {
+                    var html = "";
+                    let stt = 1;
+                    for (let i = 0; i < res.length; i++) {
+                        html += "<tr>";
+                        html += '<th scope="row">' +(stt++)+ '</th>';
+                        html += '<td class="color-primary">' + res[i].phongthi_ten + "</td>";
+                        html += "</tr>";
+                    }
+                    $('#tenphongthi').html(html);
+                } else {
+                    $('#tenphongthi').html('');
+                }
+            },
+            error: function (x) {
+                alert('Lỗi truy cập!');
+            }
+        });
+    }
+</script>
+
+    

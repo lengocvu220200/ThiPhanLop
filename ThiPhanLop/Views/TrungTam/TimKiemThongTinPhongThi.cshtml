@@ -1,0 +1,154 @@
+﻿    `@model ThiPhanLop.Models.NguoiDuThi
+
+    @{
+        ViewBag.Title = "TimKiemThongTinPhongThi";
+        Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    }
+
+
+
+<div class="content-wrap">
+    <div class="main">
+        <div class="container-fluid">
+            <!-- /# row -->
+            <section id="main-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-title">
+                                <h4>Tìm kiếm thông tin phòng thi</h4>
+                            </div>
+                            <div class="col-lg-12" style="align-items: center">
+                                <div class="basic-elements" style="padding-left: 15%; padding-right: 15%">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Họ Tên:</label>
+                                                    <input id="example-email" class="form-control" type="text" placeholder="Nhập họ tên ..." name="nguoiduthi_hoten" value="@ViewBag.Ten" />
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Số điện thoại</label>
+                                                    <input class="form-control" type="number" min="0" name="nguoiduthi_sdt" placeholder="Nhập số điện thoại ..." value="@ViewBag.SDT" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group" style="float: right">
+                                                    <button type="button" class="btn btn-danger btn-flat btn-addon m-b-10 m-l-5">
+                                                        <i class="ti-close"></i>
+                                                        Nhập lại
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-success btn-flat btn-addon btn-md m-b-10 m-l-5">
+                                                        <i class="ti-search"></i>
+                                                        Tìm kiếm
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+@if (ViewBag.Count > 0)
+{
+    <div class="content-wrap">
+        <div class="main">
+            <div class="container-fluid">
+                <!-- /# row -->
+                <section id="main-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-title">
+                                    <h4>Kết quả tìm kiếm</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Số báo danh
+                                                    </th>
+                                                    <th>
+                                                        Họ tên
+                                                    </th>
+                                                    <th>
+                                                        CMND/CCCD
+                                                    </th>
+                                                    <th>
+                                                        Số điện thoại
+                                                    </th>
+                                                    <th>
+                                                        Tên khóa thi
+                                                    </th>
+                                                    <th>
+                                                        Trình độ thi
+                                                    </th>
+                                                    <th>
+                                                        Phòng thi
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="ketqua" style="font: bold">
+                                                @foreach (var item in ViewBag.DS)
+                                                {
+                                                    <tr>
+                                                        <td>@item.sobaodanh</td>
+                                                        <td>@item.nguoiduthi_hoten</td>
+                                                        <td>@item.nguoiduthi_cmnd</td>
+                                                        <td>@item.nguoiduthi_sdt</td>
+                                                        <td>@item.khoathi_ten</td>
+                                                        <td>@item.nguoiduthi_trinhdo_ten</td>
+                                                        <td>@item.phongthi_ten</td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </div>
+}
+@if (ViewBag.Check == false)
+{
+    <div class="content-wrap">
+        <div class="main">
+            <div class="container-fluid">
+                <!-- /# row -->
+                <section id="main-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h4 style="color: red"><i>Không tìm thấy kết quả</i></h4>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+}
